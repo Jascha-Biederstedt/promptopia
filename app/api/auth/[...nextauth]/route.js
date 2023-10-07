@@ -1,6 +1,8 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
+import prisma from '@/app/db';
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
@@ -9,7 +11,27 @@ const handler = NextAuth({
     }),
   ],
   async session({ session }) {},
-  async signIn({ pfofile }) {},
+  async signIn({ profile }) {
+    try {
+      const userExists = await prisma.user.findUnique({
+        where: {
+          email: profile.email,
+        },
+      });
+
+      if (!userExists) {
+        await prisma.user.create({
+          data: {
+            email: profile.email,
+            name: profile.name.replace(' ', '').toLowerCase(),
+            image: profile.picture,
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
 });
 
 export { handler as GET, handler as POST };
