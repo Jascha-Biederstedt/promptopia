@@ -10,7 +10,17 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-  async session({ session }) {},
+  async session({ session }) {
+    const sessionUser = await prisma.user.findUnique({
+      where: {
+        email: session.user.email,
+      },
+    });
+
+    session.user.id = sessionUser._id.toString();
+
+    return session;
+  },
   async signIn({ profile }) {
     try {
       const userExists = await prisma.user.findUnique({
@@ -30,6 +40,7 @@ const handler = NextAuth({
       }
     } catch (error) {
       console.log(error);
+      return false;
     }
   },
 });
