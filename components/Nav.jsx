@@ -63,7 +63,7 @@ const Nav = () => {
                   key={provider.name}
                   onClick={() => signIn(provider.id)}
                 >
-                  Sign In
+                  Sign in with Google
                 </button>
               ))}
           </>
@@ -122,7 +122,7 @@ const Nav = () => {
                   key={provider.name}
                   onClick={() => signIn(provider.id)}
                 >
-                  Sign In
+                  Sign in with Google
                 </button>
               ))}
           </>
