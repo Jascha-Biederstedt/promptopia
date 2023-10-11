@@ -11,8 +11,17 @@ datasource db {
 }
 
 model User {
-  id    String  @id @default(uuid())
-  email String  @unique
-  name  String  @unique
-  image String?
+  id      String   @id @default(uuid())
+  email   String   @unique
+  name    String
+  image   String?
+  prompts Prompt[]
+}
+
+model Prompt {
+  id       String @id @default(uuid())
+  prompt   String
+  tag      String
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
 }
