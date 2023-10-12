@@ -26,15 +26,13 @@ const ProfilePage = () => {
   }, []);
 
   return (
-    <div>
-      <Profile
-        name='My'
-        desc='Welcome to your personalized profile page'
-        data={posts}
-        handleEdit={handleEdit}
-        handleDelete={handleDelete}
-      />
-    </div>
+    <Profile
+      name='My'
+      desc='Welcome to your personalized profile page'
+      data={posts}
+      handleEdit={handleEdit}
+      handleDelete={handleDelete}
+    />
   );
 };
 

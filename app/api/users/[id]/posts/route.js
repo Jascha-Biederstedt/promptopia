@@ -6,6 +6,9 @@ export const GET = async (req, { params }) => {
       where: {
         authorId: params.id,
       },
+      include: {
+        author: true,
+      },
     });
 
     return new Response(JSON.stringify(posts), { status: 200 });
