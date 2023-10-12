@@ -1,8 +1,13 @@
+import { imageConfigDefault } from 'next/dist/shared/lib/image-config';
 import prisma from '../../db';
 
 export const GET = async req => {
   try {
-    const prompts = await prisma.prompt.findMany();
+    const prompts = await prisma.prompt.findMany({
+      include: {
+        author: true,
+      },
+    });
 
     return new Response(JSON.stringify(prompts), { status: 200 });
   } catch (error) {
