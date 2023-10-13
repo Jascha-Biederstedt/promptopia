@@ -38,3 +38,20 @@ export const PATCH = async (req, { params }) => {
     return new Response('Failed to update prompt', { status: 500 });
   }
 };
+
+export const DELETE = async (req, { params }) => {
+  try {
+    const deletedPrompt = await prisma.prompt.delete({
+      where: {
+        id: params.id,
+      },
+    });
+
+    if (!deletedPrompt)
+      return new Response('Prompt not found', { status: 404 });
+
+    return new Response('Prompt deleted successfully', { status: 200 });
+  } catch (error) {
+    return new Response('Failed to delete prompt', { status: 500 });
+  }
+};
