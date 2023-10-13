@@ -1,4 +1,3 @@
-import { imageConfigDefault } from 'next/dist/shared/lib/image-config';
 import prisma from '../../db';
 
 export const GET = async req => {
