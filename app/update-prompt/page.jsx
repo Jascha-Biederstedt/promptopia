@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import Form from '../../components/Form';
@@ -28,29 +27,30 @@ const EditPrompt = () => {
     if (promptId) getPromptDetails();
   }, [promptId]);
 
-  // const editPrompt = async event => {
-  //   event.preventDefault();
-  //   setSubmitting(true);
+  const updatePrompt = async event => {
+    event.preventDefault();
+    setSubmitting(true);
 
-  //   try {
-  //     const response = await fetch('/api/prompt/new', {
-  //       method: 'POST',
-  //       body: JSON.stringify({
-  //         prompt: post.prompt,
-  //         tag: post.tag,
-  //         userId: session?.user.id,
-  //       }),
-  //     });
+    if (!promptId) return alert('Prompt not found');
 
-  //     if (response.ok) {
-  //       router.push('/');
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setSubmitting(false);
-  //   }
-  // };
+    try {
+      const response = await fetch(`/api/prompt/${promptId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          prompt: post.prompt,
+          tag: post.tag,
+        }),
+      });
+
+      if (response.ok) {
+        router.push('/');
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <Form
@@ -58,7 +58,7 @@ const EditPrompt = () => {
       post={post}
       setPost={setPost}
       submitting={submitting}
-      handleSubmit={() => {}}
+      handleSubmit={updatePrompt}
     />
   );
 };
