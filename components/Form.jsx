@@ -36,7 +36,14 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
           </span>
           <input
             value={post.tag}
-            onChange={event => setPost({ ...post, tag: event.target.value })}
+            onChange={event =>
+              setPost({
+                ...post,
+                tag: event.target.value.startsWith('#')
+                  ? event.target.value
+                  : `#${event.target.value}`,
+              })
+            }
             placeholder='#tag'
             required
             className='form_input'
